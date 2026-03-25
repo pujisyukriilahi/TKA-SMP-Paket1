@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tryout TKA Matematika SMP 2026 - Paket 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .option-card { cursor: pointer; transition: all 0.2s; border: 2px solid #e5e7eb; position: relative; }
+        .option-card:hover { border-color: #3b82f6; background-color: #f0f7ff; }
+        .selected { border-color: #2563eb; background-color: #dbeafe; font-weight: bold; }
+        .nav-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
+        .nav-unanswered { background-color: #f3f4f6; color: #9ca3af; border-color: #e5e7eb; }
+        .nav-answered { background-color: #2563eb; color: white; }
+        .nav-current { border-color: #1e3a8a; box-shadow: 0 0 0 2px #bfdbfe; }
+        .modal-overlay { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+        .res-box { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.8rem; font-weight: bold; color: white; }
+        .res-correct { background-color: #10b981; }
+        .res-wrong { background-color: #ef4444; }
+        img.stimulus-img { max-width: 100%; height: auto; margin: 15px auto; display: block; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen font-medium">
+
+    <div id="main-test-area" class="max-w-6xl mx-auto py-6 px-4 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Kolom Utama: Soal -->
+        <div class="flex-1">
+            <div class="flex justify-between items-center mb-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">Tryout TKA Matematika SMP</h1>
+                    <p class="text-sm text-slate-500 font-medium">Paket 1 • 30 Soal • 75 Menit</p>
+                </div>
+                <div class="flex items-center gap-3 bg-red-50 px-4 py-2 rounded-xl border border-red-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div id="timer" class="text-2xl font-mono font-black text-red-600 tracking-tighter">75:00</div>
+                </div>
+            </div>
+
+            <div id="quiz-card" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                <div id="stimulus-container" class="bg-slate-50 p-6 border-b border-slate-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Stimulus Soal</span>
+                    </div>
+                    <div id="stimulus-content" class="text-slate-700 leading-relaxed italic text-sm md:text-base"></div>
+                </div>
+
+                <div class="p-6">
+                    <div class="flex items-start gap-4 mb-6">
+                        <span id="question-number" class="bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-lg shadow-md">1</span>
+                        <h2 id="question-text" class="text-lg md:text-xl font-semibold text-slate-800 pt-1 leading-snug"></h2>
+                    </div>
+
+                    <div id="options-container" class="space-y-3"></div>
+                </div>
+
+                <!-- Navigasi Footer -->
+                <div class="p-6 bg-slate-50 flex justify-between items-center border-t border-slate-100">
+                    <button id="prev-btn" onclick="changeQuestion(-1)" class="flex items-center gap-2 px-5 py-2.5 font-bold text-slate-600 hover:text-blue-600 disabled:opacity-30 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                        Sebelumnya
+                    </button>
+                    <button id="next-btn" onclick="changeQuestion(1)" class="flex items-center gap-2 bg-blue-600 text-white px-8 py-2.5 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
+                        Selanjutnya
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kolom Navigator -->
+        <div class="lg:w-80">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 sticky top-6">
+                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase text-xs tracking-wider">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    Navigasi Soal
+                </h3>
+                <div id="nav-grid" class="grid grid-cols-5 gap-2 mb-6"></div>
+                <div class="space-y-2 mb-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-t pt-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded bg-blue-600 shadow-sm"></div>
+                        <span>Sudah Dijawab</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded bg-slate-100 border border-slate-200"></div>
+                        <span>Belum Dijawab</span>
+                    </div>
+                </div>
+                <button id="final-submit-btn" onclick="checkBeforeSubmit()" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-black text-lg hover:bg-emerald-700 shadow-xl shadow-emerald-100 transition-all transform active:scale-95">
+                    KIRIM JAWABAN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-warning" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center border border-slate-100">
+            <div class="bg-amber-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Jawaban Belum Lengkap!</h3>
+            <p id="warning-text" class="text-slate-600 mb-6 text-sm"></p>
+            <button onclick="closeModal()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-black transition-all">Kembali</button>
+        </div>
+    </div>
+
+    <!-- Halaman Hasil -->
+    <div id="result-screen" class="hidden min-h-screen bg-slate-50 flex items-center justify-center p-6 py-12">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-3xl w-full p-8 md:p-12 border border-slate-200">
+            <div class="text-center">
+                <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase italic tracking-tight">Tryout Paket 1 Selesai!</h2>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 my-8 border-y border-slate-100 py-8">
+                    <div class="text-center">
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Skor Akhir</p>
+                        <div id="final-score" class="text-8xl font-black text-blue-600 leading-none">0</div>
+                    </div>
+                    <div class="h-16 w-px bg-slate-100 hidden md:block"></div>
+                    <div class="text-left space-y-2">
+                        <div class="flex items-center gap-3"><span class="w-3 h-3 rounded-full bg-emerald-500"></span><span class="text-slate-600 font-medium">Jawaban Benar: <b id="correct-count" class="text-slate-900">0</b></span></div>
+                        <div class="flex items-center gap-3"><span class="w-3 h-3 rounded-full bg-slate-300"></span><span class="text-slate-600 font-medium">Total Soal: <b class="text-slate-900">30</b></span></div>
+                        <p id="score-message" class="text-sm text-slate-500 italic pt-2"></p>
+                    </div>
+                </div>
+                <div class="text-left mb-10">
+                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Ringkasan Hasil Per Nomor</h3>
+                    <div id="result-breakdown" class="flex flex-wrap gap-2 justify-center md:justify-start"></div>
+                </div>
+                <button onclick="location.reload()" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-black transition-all transform active:scale-95 shadow-lg shadow-slate-200">ULANGI LATIHAN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { type: "mcq", stimulus: "Ani membeli 2 pulpen (Rp12.000) dan 2 pensil (Rp8.000). Promo 'Hemat Berempat': setiap pembelian 4 barang (boleh campur) akan mendapat potongan harga sebesar harga 1 barang termurah.", question: "Berapa total harga yang harus dibayar Ani?", options: ["Rp32.000,00", "Rp36.000,00", "Rp40.000,00", "Rp44.000,00"], answer: 0 },
+            { type: "checkbox", stimulus: "Harga 1 kg beras adalah Rp12.750,00. Seseorang ingin membeli 19,6 kg beras.", question: "Pilih semua jawaban yang benar mengenai perkiraan total harga!", options: ["Kurang dari Rp260.000,00", "Lebih besar dari Rp240.000,00", "Dapat diperkirakan dengan perhitungan 20 x 12.500", "Mendekati Rp230.000,00"], answer: [0, 1, 2] },
+            { type: "checkbox", stimulus: "Tiga bilangan: (33² - 3²), (8² + 296), dan (36 x 35).", question: "Manakah faktor persekutuan dari ketiga bilangan tersebut?", options: ["2³ x 3³ x 7", "2² x 3² x 7", "2² x 3² x 5", "2 x 3² x 5"], answer: [1, 3] },
+            { type: "mcq", stimulus: "Desinfektan: Cairan A : Cairan B = 3 : 5. Tersedia 2,5 liter cairan B.", question: "Berapa volume maksimum larutan desinfektan yang dapat dibuat?", options: ["3,6 liter", "4,0 liter", "4,8 liter", "6,4 liter"], answer: 1 },
+            { type: "mcq", stimulus: "Harga 0,5 kg cabai rawit adalah Rp35.000,00. Ibu ingin membeli 2,25 kg cabai.", question: "Berapa total harga yang harus dibayar Ibu?", options: ["Rp175.000,00", "Rp157.500,00", "Rp140.000,00", "Rp87.500,00"], answer: 1 },
+            { type: "mcq", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Proyek renovasi sebuah gedung sekolah direncanakan dapat diselesaikan oleh 12 pegawai dalam waktu 60 hari. Manajer menambah pegawai sehingga total menjadi 18 orang.", question: "Berapa waktu yang diperlukan untuk menyelesaikan renovasi tersebut?", options: ["30 hari", "40 hari", "45 hari", "90 hari"], answer: 1 },
+            { type: "tf", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Rencana awal renovasi gedung oleh 15 pegawai target selesai 60 hari. Pada 10 hari pertama hanya 10 pegawai yang bekerja. Setelah hari ke-10, 15 pegawai bekerja penuh.", question: "Tentukan Benar atau Salah pernyataan berikut!", options: ["Hutang pekerjaan akibat kekurangan pegawai adalah 50 hari-orang.", "Sisa pekerjaan setelah hari ke-10 adalah 800 hari-orang.", "Pekerjaan akan terlambat selama kurang lebih 3-4 hari jika tetap dengan 15 orang."], answer: [true, false, true] },
+            { type: "checkbox", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Rencana awal 60 hari oleh 20 pegawai. Pekerjaan jalan 24 hari, lalu berhenti 12 hari karena cuaca ekstrem.", question: "Manakah pernyataan yang sesuai agar proyek selesai tepat waktu?", options: ["Sisa waktu efektif yang tersedia adalah 24 hari.", "Beban sisa pekerjaan setara dengan hasil kerja 20 orang selama 36 hari.", "Manajer proyek harus menyiapkan total 30 pegawai.", "Manajer cukup menambah 5 orang pegawai dari jumlah semula."], answer: [0, 1, 2] },
+            { type: "mcq", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> <b>Alur Pelayanan Donor Darah:</b> Daftar(5m), Periksa(10m), Tunggu, Ambil Darah(30m), Pemulihan(30m). Seseorang datang saat tidak ada antrean.", question: "Apa yang kemungkinan sedang dilakukan pendonor tepat setelah 25 menit berlalu?", options: ["Tahap pemeriksaan kesehatan", "Duduk di kursi tunggu", "Proses pengambilan darah", "Istirahat di ruang pemulihan"], answer: 2 },
+            { type: "checkbox", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> Yuda baru sampai. Rama sedang antre ambil darah. Fajar sedang menjalani proses pengambilan darah sejak 16 menit lalu.", question: "Pilih pernyataan-pernyataan yang mungkin terjadi!", options: ["Yuda sempat bertemu Rama di kursi tunggu.", "Yuda ambil darah saat Fajar sudah selesai dan telah pulang.", "Yuda harus menunggu di kursi tunggu minimal selama 30 menit.", "Sejak pertama datang hingga pulang, Yuda menghabiskan waktu total > 1,5 jam."], answer: [0, 1, 3] },
+            { type: "tf", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> Posko PMI menambah fasilitas sehingga bisa melayani 2 orang sekaligus pada tahap pengambilan darah dan pemulihan.", question: "Tentukan Benar atau Salah pernyataan tentang situasi di lokasi!", options: ["Kapasitas pelayanan ganda mempercepat total waktu satu siklus donor per orang.", "Seseorang yang baru mulai pemulihan akan selesai bersamaan dengan yang sudah 15 menit.", "Urutan pendaftaran tetap menentukan kapan seseorang dipanggil ambil darah."], answer: [false, false, true] },
+            { type: "mcq", stimulus: "Penyederhanaan aljabar: (x+2)(3+y) + (x+2)(1-y)", question: "Bentuk paling sederhana dari ekspresi aljabar di atas adalah ....", options: ["4(x+2)", "x+2+4y", "4(x+8)", "4x+2y"], answer: 0 },
+            { type: "checkbox", stimulus: "Jasa antar: Beban Rp12.000 + Rp4.000 per km. Anggaran maksimal Rp40.000.", question: "Manakah pernyataan yang benar mengenai batas jarak pengantaran?", options: ["Model matematikanya adalah 4.000x + 12.000 <= 40.000", "Jarak pengantaran maksimum yang bisa dipilih adalah 7 km.", "Jika jarak pengantaran 8 km, biaya total akan melebihi anggaran.", "Penambahan jarak setiap 1 km menambah biaya total sebesar Rp16.000."], answer: [0, 1, 2] },
+            { type: "tf", stimulus: "Sistem persamaan {2x + ay = 4; bx - 2y = -1} memiliki solusi di titik (5, -2).", question: "Berdasarkan nilai a dan b yang ditemukan, tentukan Benar atau Salah!", options: ["Nilai a yang memenuhi adalah 3.", "Nilai b yang memenuhi adalah 1.", "Hasil dari a + b adalah 4."], answer: [true, false, false] },
+            { type: "mcq", stimulus: "Fungsi berat logam: f(x) = 5x + 10 (kg) untuk x batang logam.", question: "Jika memproduksi tepat 7 batang logam, berapakah total beratnya?", options: ["35 kg", "45 kg", "50 kg", "70 kg"], answer: 1 },
+            { type: "mcq", stimulus: "Pola titik: Pola 1=1, Pola 2=3, Pola 3=6, Pola 4=10.", question: "Berapakah jumlah titik pada pola ke-6?", options: ["15", "18", "21", "28"], answer: 2 },
+            { type: "tf", stimulus: "Potongan kayu pertama 240 cm. Setiap potongan berikutnya lebih pendek 12 cm tetap (total 9 bagian).", question: "Tentukan Benar atau Salah mengenai hasil potongan!", options: ["Potongan terakhir panjangnya adalah 144 cm.", "Papan total sebelum dipotong awalnya lebih dari 10 meter.", "Potongan ke-5 memiliki panjang 192 cm."], answer: [true, true, true] },
+            { type: "tf", stimulus: "Desain rangka jembatan L1 // L2 dan L3 // L4. Sudut A = 50°. <img src='TKA_SMP_1.18.png' class='stimulus-img'>", question: "Berdasarkan sifat garis sejajar, tentukan Benar atau Salah!", options: ["Besar sudut D adalah 50°.", "Besar sudut C adalah 50°.", "Sudut B dan E memiliki besar yang sama yaitu 130°."], answer: [true, false, true] },
+            { type: "tf", stimulus: "Segitiga siku-siku ABC, garis tinggi AD. AB=12 cm, BD=9,6 cm. <img src='TKA_SMP_1.19.png' class='stimulus-img'>", question: "Tentukan Benar atau Salah pernyataan di bawah ini!", options: ["Segitiga ABD dan segitiga CAD adalah dua segitiga yang saling sebangun.", "Panjang sisi miring BC adalah 15 cm.", "Panjang sisi tegak AC adalah 10 cm."], answer: [true, true, false] },
+            { type: "tf", stimulus: "Taman 20m x 14m. Kolam lingkaran di tengah r=3,5m. Sisa area rumput. <img src='TKA_SMP_1.20.png' class='stimulus-img'>", question: "Tentukan Benar atau Salah mengenai luas area!", options: ["Selisih luas seluruh taman dan luas kolam > 240 m².", "Jika diameter kolam ditambah 1m, luas kolam bertambah > 7 m².", "Luas daerah yang ditanami rumput hias kurang dari 240 m²."], answer: [true, true, false] },
+            { type: "mcq", stimulus: "Dinding 42 m². Pilihan Cat: Momilex(7m²/kg), Josun(8m²/kg), Bulax(10m²/kg), Noppin(9m²/kg). <img src='TKA_SMP_1.21.png' class='stimulus-img'>", question: "Supaya sisa cat paling sedikit (efisien), merek manakah yang sebaiknya dipilih?", options: ["Momilex", "Josun", "Bulax", "Noppin"], answer: 0 },
+            { type: "mcq", stimulus: "Prisma Segitiga: alas 8, 6, 10 cm, tinggi 12 cm. Karton 50x100 cm. <img src='TKA_SMP_1.22.png' class='stimulus-img'>", question: "Berapa jumlah kemasan maksimum yang dapat dibuat dari satu lembar karton utuh?", options: ["4 kemasan", "8 kemasan", "9 kemasan", "14 kemasan"], answer: 1 },
+            { type: "mcq", stimulus: "Robot di koordinat (6, 5) bergerak mengikuti translasi T(4, -2). <img src='TKA_SMP_1.23.png' class='stimulus-img'>", question: "Di manakah posisi robot tersebut setelah menyelesaikan pergerakannya?", options: ["Titik A (10, 7)", "Titik B (2, 3)", "Titik C (10, 3)", "Titik D (2, 7)"], answer: 2 },
+            { type: "mcq", stimulus: "A(2,1), B(6,1), C(6,4) pindah menjadi A'(-1,2), B'(-1,6), C'(-4,6). <img src='TKA_SMP_1.24.png' class='stimulus-img'>", question: "Jenis transformasi tunggal manakah yang paling tepat?", options: ["Translasi sejauh (-3, 1)", "Refleksi terhadap garis y = x", "Rotasi 90° CCW dengan pusat (0,0)", "Refleksi terhadap sumbu-Y"], answer: 2 },
+            { type: "mcq", stimulus: "Monumen: Balok (6x6x5m) + Limas (alas 6x6, t=3m). Bata (60x20x10 cm). <img src='TKA_SMP_1.25.png' class='stimulus-img'>", question: "Berapa jumlah minimal bata ringan yang diperlukan untuk menyusun monumen secara rapat?", options: ["16.800 buah", "18.000 buah", "19.200 buah", "21.600 buah"], answer: 1 },
+            { type: "mcq", stimulus: "Peminjaman buku: Sen(48), Sel(56), Rab(72), Kam(64), Jum(40). <img src='TKA_SMP_1.26.png' class='stimulus-img'>", question: "Manakah pernyataan yang paling tepat menggambarkan data di atas?", options: ["Jumlah buku yang dipinjam selalu meningkat setiap hari.", "Peminjaman pada hari Kamis lebih sedikit dibandingkan hari Selasa.", "Selisih peminjaman antara hari tersibuk dan tersepi adalah 10 buku.", "Hari dengan minat pinjam buku paling tinggi terjadi pada hari Rabu."], answer: 3 },
+            { type: "checkbox", stimulus: "Pengunjung Mei 160 orang. Buku Tulis 30%, Pulpen 40%, Pensil 20%, Penghapus 10%. <img src='TKA_SMP_1.27.png' class='stimulus-img'>", question: "Pilih semua pernyataan yang benar berdasarkan data!", options: ["Terjadi peningkatan pengunjung signifikan bulan ini.", "Jika tiap pengunjung beli 1 alat tulis, ada 64 pulpen terjual.", "Jumlah pengunjung koperasi selalu meningkat konsisten.", "Total buku tulis yang terjual pada bulan Mei sebanyak 48 buah."], answer: [1, 3] },
+            { type: "mcq", stimulus: "Telur: K(45g), S(55g), B(65g). Target rata-rata 10 telur = 55g. Sudah ada 1B, 5S, 2K.", question: "Dua butir telur tambahan manakah yang harus dimasukkan agar memenuhi syarat?", options: ["2 butir telur sedang", "2 butir telur besar", "1 butir telur besar dan 1 butir kecil", "1 butir telur besar dan 1 butir sedang"], answer: 2 },
+            { type: "mcq", stimulus: "1.000 lampu: 980 baik, sisanya rusak. Satu diambil secara acak.", question: "Berapakah peluang mendapatkan lampu yang rusak?", options: ["1/50", "1/49", "2/49", "49/50"], answer: 0 },
+            { type: "checkbox", stimulus: "Tes sensor: I(100 uji, 9 gagal), II(150, 18), III(250, 35).", question: "Pilih semua pernyataan yang benar mengenai kualitas sensor!", options: ["Peluang kegagalan total dari seluruh pengujian adalah 0,124.", "Tingkat kegagalan pada Tahap III lebih tinggi dibanding Tahap I.", "Jika diuji 1.000 kali lagi, diperkirakan 124 sensor gagal.", "Peluang sensor berhasil pada pengujian berikutnya adalah 0,91."], answer: [0, 1, 2] }
+        ];
+
+        let currentIdx = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let timeLeft = 75 * 60; // 75 Menit
+
+        const timerInterval = setInterval(() => {
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            const timerEl = document.getElementById('timer');
+            if (timerEl) {
+                timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+
+        function initNav() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+            for(let i=0; i < questions.length; i++) {
+                const btn = document.createElement('div');
+                btn.id = `nav-${i}`;
+                btn.className = 'nav-btn nav-unanswered border-slate-200';
+                btn.innerText = i + 1;
+                btn.onclick = () => { currentIdx = i; loadQuestion(); };
+                grid.appendChild(btn);
+            }
+        }
+
+        function loadQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('question-number').innerText = currentIdx + 1;
+            document.getElementById('stimulus-content').innerHTML = q.stimulus;
+            document.getElementById('question-text').innerText = q.question;
+            
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+                btn.classList.remove('nav-current');
+                if (idx === currentIdx) btn.classList.add('nav-current');
+                
+                const ans = userAnswers[idx];
+                let isAnswered = false;
+                if (ans !== null) {
+                    if (Array.isArray(ans)) {
+                        isAnswered = ans.length > 0 && !ans.includes(null);
+                    } else {
+                        isAnswered = true;
+                    }
+                }
+                
+                if (isAnswered) {
+                    btn.classList.replace('nav-unanswered', 'nav-answered');
+                } else {
+                    btn.classList.replace('nav-answered', 'nav-unanswered');
+                }
+            });
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            if (q.type === 'mcq') {
+                q.options.forEach((opt, i) => {
+                    const div = document.createElement('div');
+                    div.className = `option-card p-4 rounded-xl flex items-center gap-3 ${userAnswers[currentIdx] === i ? 'selected shadow-sm' : ''}`;
+                    div.innerHTML = `<span class="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center font-bold text-xs shrink-0">${String.fromCharCode(65 + i)}</span> <span>${opt}</span>`;
+                    div.onclick = () => { userAnswers[currentIdx] = i; loadQuestion(); };
+                    container.appendChild(div);
+                });
+            } else if (q.type === 'checkbox') {
+                if (!userAnswers[currentIdx]) userAnswers[currentIdx] = [];
+                q.options.forEach((opt, i) => {
+                    const isSelected = userAnswers[currentIdx].includes(i);
+                    const div = document.createElement('div');
+                    div.className = `option-card p-4 rounded-xl flex items-center gap-3 ${isSelected ? 'selected shadow-sm' : ''}`;
+                    div.innerHTML = `<div class="w-6 h-6 border-2 border-slate-200 rounded flex items-center justify-center shrink-0 text-blue-600">${isSelected ? '✓' : ''}</div> <span>${opt}</span>`;
+                    div.onclick = () => {
+                        const idx = userAnswers[currentIdx].indexOf(i);
+                        if (idx > -1) userAnswers[currentIdx].splice(idx, 1);
+                        else userAnswers[currentIdx].push(i);
+                        loadQuestion();
+                    };
+                    container.appendChild(div);
+                });
+            } else if (q.type === 'tf') {
+                if (!userAnswers[currentIdx]) userAnswers[currentIdx] = new Array(q.options.length).fill(null);
+                const table = document.createElement('div');
+                table.className = "space-y-4";
+                q.options.forEach((opt, i) => {
+                    const row = document.createElement('div');
+                    row.className = "flex flex-col md:flex-row justify-between p-3 bg-slate-50 rounded-lg border border-slate-200 gap-3";
+                    row.innerHTML = `<p class="text-sm font-medium flex-1">${opt}</p>
+                        <div class="flex gap-2">
+                            <button onclick="setTF(${i}, true)" class="px-4 py-1.5 rounded-lg font-bold text-xs ${userAnswers[currentIdx][i] === true ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white border border-slate-200 text-slate-400'}">BENAR</button>
+                            <button onclick="setTF(${i}, false)" class="px-4 py-1.5 rounded-lg font-bold text-xs ${userAnswers[currentIdx][i] === false ? 'bg-rose-600 text-white border-rose-600' : 'bg-white border border-slate-200 text-slate-400'}">SALAH</button>
+                        </div>`;
+                    table.appendChild(row);
+                });
+                container.appendChild(table);
+            }
+
+            document.getElementById('prev-btn').disabled = currentIdx === 0;
+            document.getElementById('next-btn').disabled = currentIdx === questions.length - 1;
+        }
+
+        window.setTF = (idx, val) => {
+            userAnswers[currentIdx][idx] = val;
+            loadQuestion();
+        };
+
+        function changeQuestion(step) {
+            currentIdx += step;
+            if (currentIdx < 0) currentIdx = 0;
+            if (currentIdx >= questions.length) currentIdx = questions.length - 1;
+            loadQuestion();
+        }
+
+        function checkBeforeSubmit() {
+            let incomplete = [];
+            questions.forEach((q, idx) => {
+                const ans = userAnswers[idx];
+                let isComplete = false;
+                if (q.type === 'mcq') isComplete = ans !== null;
+                else if (q.type === 'checkbox') isComplete = ans && ans.length > 0;
+                else if (q.type === 'tf') isComplete = ans && !ans.includes(null);
+                
+                if (!isComplete) incomplete.push(idx + 1);
+            });
+
+            if (incomplete.length > 0) {
+                document.getElementById('warning-text').innerText = `Nomor yang belum dijawab: ${incomplete.join(', ')}. Harap isi semua jawaban sebelum mengirim.`;
+                document.getElementById('modal-warning').classList.remove('hidden');
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal-warning').classList.add('hidden');
+        }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            let correctCount = 0;
+            let results = [];
+
+            questions.forEach((q, i) => {
+                const ua = userAnswers[i];
+                let isCorrect = false;
+                if (q.type === 'mcq' && ua === q.answer) isCorrect = true;
+                if (q.type === 'checkbox' && Array.isArray(ua) && ua.sort().join(',') === q.answer.sort().join(',')) isCorrect = true;
+                if (q.type === 'tf' && JSON.stringify(ua) === JSON.stringify(q.answer)) isCorrect = true;
+                
+                if (isCorrect) correctCount++;
+                results.push(isCorrect);
+            });
+
+            const finalScore = Math.round((correctCount / questions.length) * 100);
+            document.getElementById('main-test-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('final-score').innerText = finalScore;
+            document.getElementById('correct-count').innerText = correctCount;
+            
+            let msg = "";
+            if (finalScore >= 80) msg = "Luar biasa! Kamu sudah sangat siap menghadapi TKA Paket 1.";
+            else if (finalScore >= 60) msg = "Kerja bagus! Teruslah berlatih agar nilai kamu semakin maksimal.";
+            else msg = "Jangan menyerah! Coba pelajari kembali pembahasan soal yang salah.";
+            document.getElementById('score-message').innerText = msg;
+
+            const breakdown = document.getElementById('result-breakdown');
+            breakdown.innerHTML = '';
+            results.forEach((c, idx) => {
+                const box = document.createElement('div');
+                box.className = `res-box ${c ? 'res-correct' : 'res-wrong'}`;
+                box.innerText = idx + 1;
+                breakdown.appendChild(box);
+            });
+        }
+
+        initNav();
+        loadQuestion();
+    </script>
+</body>
+</html>
