@@ -18,11 +18,69 @@
         .res-correct { background-color: #10b981; }
         .res-wrong { background-color: #ef4444; }
         img.stimulus-img { max-width: 100%; height: auto; margin: 15px auto; display: block; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        
+        /* Animasi Transisi */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 min-h-screen font-medium">
 
-    <div id="main-test-area" class="max-w-6xl mx-auto py-6 px-4 flex flex-col lg:flex-row gap-6">
+    <!-- BAGIAN 1: HALAMAN INTRO -->
+    <div id="intro-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 fade-in">
+            <div class="bg-blue-600 p-8 text-center text-white">
+                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-black mb-2 uppercase tracking-tight">Tryout TKA Matematika SMP</h1>
+                <p class="text-blue-100 font-bold opacity-90">Simulasi Tes Kompetensi Akademik - Paket 1</p>
+            </div>
+            <div class="p-8">
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                        <p class="text-[10px] uppercase font-bold text-slate-400 mb-1">Jumlah Soal</p>
+                        <p class="text-2xl font-black text-slate-800">30 Butir</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                        <p class="text-[10px] uppercase font-bold text-slate-400 mb-1">Waktu Pengerjaan</p>
+                        <p class="text-2xl font-black text-slate-800">75 Menit</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        </svg>
+                        Instruksi Pengerjaan:
+                    </h3>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5 font-medium leading-relaxed">
+                        <li>Pastikan koneksi internet stabil selama mengerjakan soal.</li>
+                        <li>Gunakan navigasi di sisi kanan untuk berpindah antar nomor.</li>
+                        <li>Sistem penilaian menggunakan aturan jawaban benar/salah yang sudah diperbarui.</li>
+                        <li>Jawaban akan terkirim otomatis jika waktu habis.</li>
+                        <li>Jangan merefresh halaman agar progres jawaban tidak hilang.</li>
+                    </ul>
+                </div>
+
+                <button onclick="startTest()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-xl hover:bg-blue-700 shadow-xl shadow-blue-200 transition-all transform active:scale-95 flex items-center justify-center gap-3">
+                    MULAI UJIAN SEKARANG
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+            <div class="bg-slate-50 p-4 text-center border-t border-slate-100">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">SMP Negeri Indonesia - 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAGIAN 2: AREA UJIAN (UTAMA) -->
+    <div id="main-test-area" class="hidden max-w-6xl mx-auto py-6 px-4 flex flex-col lg:flex-row gap-6 fade-in">
         
         <!-- Kolom Utama: Soal -->
         <div class="flex-1">
@@ -136,32 +194,32 @@
         const questions = [
             { type: "mcq", stimulus: "Ani membeli 2 pulpen (Rp12.000) dan 2 pensil (Rp8.000). Promo 'Hemat Berempat': setiap pembelian 4 barang (boleh campur) akan mendapat potongan harga sebesar harga 1 barang termurah.", question: "Berapa total harga yang harus dibayar Ani?", options: ["Rp32.000,00", "Rp36.000,00", "Rp40.000,00", "Rp44.000,00"], answer: 0 },
             { type: "checkbox", stimulus: "Harga 1 kg beras adalah Rp12.750,00. Seseorang ingin membeli 19,6 kg beras.", question: "Pilih semua jawaban yang benar mengenai perkiraan total harga!", options: ["Kurang dari Rp260.000,00", "Lebih besar dari Rp240.000,00", "Dapat diperkirakan dengan perhitungan 20 x 12.500", "Mendekati Rp230.000,00"], answer: [0, 1, 2] },
-            { type: "checkbox", stimulus: "Tiga bilangan: (33² - 3²), (8² + 296), dan (36 x 35).", question: "Manakah faktor persekutuan dari ketiga bilangan tersebut?", options: ["2³ x 3³ x 7", "2² x 3² x 7", "2² x 3² x 5", "2 x 3² x 5"], answer: [1, 3] },
+            { type: "checkbox", stimulus: "Tiga bilangan: (33² - 3²), (8² + 296), dan (36 x 35).", question: "Manakah faktor persekutuan dari ketiga bilangan tersebut?", options: ["2³ x 3³ x 7", "2² x 3² x 7", "2² x 3² x 5", "2 x 3² x 5"], answer: [2, 3] },
             { type: "mcq", stimulus: "Desinfektan: Cairan A : Cairan B = 3 : 5. Tersedia 2,5 liter cairan B.", question: "Berapa volume maksimum larutan desinfektan yang dapat dibuat?", options: ["3,6 liter", "4,0 liter", "4,8 liter", "6,4 liter"], answer: 1 },
             { type: "mcq", stimulus: "Harga 0,5 kg cabai rawit adalah Rp35.000,00. Ibu ingin membeli 2,25 kg cabai.", question: "Berapa total harga yang harus dibayar Ibu?", options: ["Rp175.000,00", "Rp157.500,00", "Rp140.000,00", "Rp87.500,00"], answer: 1 },
             { type: "mcq", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Proyek renovasi sebuah gedung sekolah direncanakan dapat diselesaikan oleh 12 pegawai dalam waktu 60 hari. Manajer menambah pegawai sehingga total menjadi 18 orang.", question: "Berapa waktu yang diperlukan untuk menyelesaikan renovasi tersebut?", options: ["30 hari", "40 hari", "45 hari", "90 hari"], answer: 1 },
-            { type: "tf", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Rencana awal renovasi gedung oleh 15 pegawai target selesai 60 hari. Namun, pada 10 hari pertama hanya 10 pegawai yang bekerja. Setelah hari ke-10, 15 pegawai bekerja penuh.", question: "Tentukan Benar atau Salah pernyataan berikut!", options: ["Hutang pekerjaan akibat kekurangan pegawai adalah 50 hari-orang.", "Sisa pekerjaan setelah hari ke-10 adalah 800 hari-orang.", "Pekerjaan akan terlambat selama kurang lebih 3-4 hari jika tetap dengan 15 orang."], answer: [true, false, true] },
-            { type: "checkbox", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Rencana awal 60 hari oleh 20 pegawai. Pekerjaan jalan 24 hari, lalu berhenti 12 hari karena cuaca ekstrem.", question: "Manakah pernyataan yang sesuai agar proyek selesai tepat waktu?", options: ["Sisa waktu efektif yang tersedia adalah 24 hari.", "Beban sisa pekerjaan setara dengan hasil kerja 20 orang selama 36 hari.", "Manajer proyek harus menyiapkan total 30 pegawai.", "Manajer cukup menambah 5 orang pegawai dari jumlah semula."], answer: [0, 1, 2] },
+            { type: "tf", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Rencana awal renovasi gedung oleh 15 pegawai target selesai 60 hari. Namun, pada 10 hari pertama hanya 10 pegawai yang bekerja. Setelah hari ke-10, 15 pegawai bekerja penuh.", question: "Tentukan Benar atau Salah pernyataan berikut!", options: ["Hutang pekerjaan akibat kekurangan pegawai adalah 50 hari-orang.", "Sisa pekerjaan setelah hari ke-10 adalah 800 hari-orang.", "Pekerjaan akan terlambat selama kurang lebih 3-4 hari jika tetap dengan 15 orang."], answer: [true, true, false] },
+            { type: "checkbox", stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img'> Rencana awal 60 hari oleh 20 pegawai. Pekerjaan jalan 24 hari, lalu berhenti 12 hari karena cuaca ekstrem.", question: "Manakah pernyataan yang sesuai agar proyek selesai tepat waktu?", options: ["Sisa waktu efektif yang tersedia adalah 24 hari.", "Beban sisa pekerjaan setara dengan hasil kerja 20 orang selama 36 hari.", "Manajer proyek harus menyiapkan total 30 pegawai.", "Manajer cukup menambah 5 orang pegawai dari jumlah semula."], answer: [0, 2] },
             { type: "mcq", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> <b>Alur Pelayanan Donor Darah:</b> Daftar(5m), Periksa(10m), Tunggu, Ambil Darah(30m), Pemulihan(30m). Seseorang datang saat tidak ada antrean.", question: "Apa yang kemungkinan sedang dilakukan pendonor tepat setelah 25 menit berlalu?", options: ["Tahap pemeriksaan kesehatan", "Duduk di kursi tunggu", "Proses pengambilan darah", "Istirahat di ruang pemulihan"], answer: 2 },
-            { type: "checkbox", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> Yuda baru sampai. Rama sedang antre ambil darah. Fajar sedang menjalani proses pengambilan darah sejak 16 menit lalu.", question: "Pilih pernyataan-pernyataan yang mungkin terjadi!", options: ["Yuda sempat bertemu Rama di kursi tunggu.", "Yuda ambil darah saat Fajar sudah selesai dan telah pulang.", "Yuda harus menunggu di kursi tunggu minimal selama 30 menit.", "Sejak pertama datang hingga pulang, Yuda menghabiskan waktu total > 1,5 jam."], answer: [0, 1, 3] },
-            { type: "tf", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> Posko PMI menambah fasilitas sehingga bisa melayani 2 orang sekaligus pada tahap pengambilan darah dan pemulihan.", question: "Tentukan Benar atau Salah pernyataan tentang situasi di lokasi!", options: ["Kapasitas pelayanan ganda mempercepat total waktu satu siklus donor per orang.", "Seseorang yang baru mulai pemulihan akan selesai bersamaan dengan yang sudah 15 menit.", "Urutan pendaftaran tetap menentukan kapan seseorang dipanggil ambil darah."], answer: [false, false, true] },
+            { type: "checkbox", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> Yuda baru sampai. Rama sedang antre ambil darah. Fajar sedang menjalani proses pengambilan darah sejak 16 menit lalu.", question: "Pilih pernyataan-pernyataan yang mungkin terjadi!", options: ["Yuda sempat bertemu Rama di kursi tunggu.", "Yuda ambil darah saat Fajar sudah selesai dan telah pulang.", "Yuda harus menunggu di kursi tunggu minimal selama 30 menit.", "Sejak pertama datang hingga pulang, Yuda menghabiskan waktu total > 1,5 jam."], answer: [0, 3] },
+            { type: "tf", stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img'> Posko PMI menambah fasilitas sehingga bisa melayani 2 orang sekaligus pada tahap pengambilan darah dan pemulihan.", question: "Tentukan Benar atau Salah pernyataan tentang situasi di lokasi!", options: ["Kapasitas pelayanan ganda mempercepat total waktu satu siklus donor per orang.", "Seseorang yang baru mulai pemulihan akan selesai bersamaan dengan yang sudah 15 menit.", "Urutan pendaftaran tetap menentukan kapan seseorang dipanggil ambil darah."], answer: [true, false, true] },
             { type: "mcq", stimulus: "Penyederhanaan aljabar: (x+2)(3+y) + (x+2)(1-y)", question: "Bentuk paling sederhana dari ekspresi aljabar di atas adalah ....", options: ["4(x+2)", "x+2+4y", "4(x+8)", "4x+2y"], answer: 0 },
             { type: "checkbox", stimulus: "Jasa antar: Beban Rp12.000 + Rp4.000 per km. Anggaran maksimal Rp40.000.", question: "Manakah pernyataan yang benar mengenai batas jarak pengantaran?", options: ["Model matematikanya adalah 4.000x + 12.000 <= 40.000", "Jarak pengantaran maksimum yang bisa dipilih adalah 7 km.", "Jika jarak pengantaran 8 km, biaya total akan melebihi anggaran.", "Penambahan jarak setiap 1 km menambah biaya total sebesar Rp16.000."], answer: [0, 1, 2] },
-            { type: "tf", stimulus: "Sistem persamaan {2x + ay = 4; bx - 2y = -1} memiliki solusi di titik (5, -2).", question: "Berdasarkan nilai a dan b yang ditemukan, tentukan Benar atau Salah!", options: ["Nilai a yang memenuhi adalah 3.", "Nilai b yang memenuhi adalah 1.", "Hasil dari a + b adalah 4."], answer: [true, false, false] },
+            { type: "tf", stimulus: "Sistem persamaan {2x + ay = 4; bx - 2y = -1} memiliki solusi di titik (5, -2).", question: "Berdasarkan nilai a dan b yang ditemukan, tentukan Benar atau Salah!", options: ["Nilai a yang memenuhi adalah 3.", "Nilai b yang memenuhi adalah 1.", "Hasil dari a + b adalah 4."], answer: [true, true, false] },
             { type: "mcq", stimulus: "Fungsi berat logam: f(x) = 5x + 10 (kg) untuk x batang logam.", question: "Jika memproduksi tepat 7 batang logam, berapakah total beratnya?", options: ["35 kg", "45 kg", "50 kg", "70 kg"], answer: 1 },
             { type: "mcq", stimulus: "Pola titik: Pola 1=1, Pola 2=3, Pola 3=6, Pola 4=10.", question: "Berapakah jumlah titik pada pola ke-6?", options: ["15", "18", "21", "28"], answer: 2 },
-            { type: "tf", stimulus: "Potongan kayu pertama 240 cm. Setiap potongan berikutnya lebih pendek 12 cm tetap (total 9 bagian).", question: "Tentukan Benar atau Salah mengenai hasil potongan!", options: ["Potongan terakhir panjangnya adalah 144 cm.", "Papan total sebelum dipotong awalnya lebih dari 10 meter.", "Potongan ke-5 memiliki panjang 192 cm."], answer: [true, true, true] },
+            { type: "tf", stimulus: "Potongan kayu pertama 240 cm. Setiap potongan berikutnya lebih pendek 12 cm tetap (total 9 bagian).", question: "Tentukan Benar atau Salah mengenai hasil potongan!", options: ["Potongan terakhir panjangnya adalah 144 cm.", "Papan total sebelum dipotong awalnya lebih dari 10 meter.", "Potongan ke-5 memiliki panjang 192 cm."], answer: [false, true, true] },
             { type: "tf", stimulus: "Desain rangka jembatan L1 // L2 dan L3 // L4. Sudut A = 50°. <img src='TKA_SMP_1.18.png' class='stimulus-img'>", question: "Berdasarkan sifat garis sejajar, tentukan Benar atau Salah!", options: ["Besar sudut D adalah 50°.", "Besar sudut C adalah 50°.", "Sudut B dan E memiliki besar yang sama yaitu 130°."], answer: [true, false, true] },
             { type: "tf", stimulus: "Segitiga siku-siku ABC, garis tinggi AD. AB=12 cm, BD=9,6 cm. <img src='TKA_SMP_1.19.png' class='stimulus-img'>", question: "Tentukan Benar atau Salah pernyataan di bawah ini!", options: ["Segitiga ABD dan segitiga CAD adalah dua segitiga yang saling sebangun.", "Panjang sisi miring BC adalah 15 cm.", "Panjang sisi tegak AC adalah 10 cm."], answer: [true, true, false] },
             { type: "tf", stimulus: "Taman 20m x 14m. Kolam lingkaran di tengah r=3,5m. Sisa area rumput. <img src='TKA_SMP_1.20.png' class='stimulus-img'>", question: "Tentukan Benar atau Salah mengenai luas area!", options: ["Selisih luas seluruh taman dan luas kolam > 240 m².", "Jika diameter kolam ditambah 1m, luas kolam bertambah > 7 m².", "Luas daerah yang ditanami rumput hias kurang dari 240 m²."], answer: [true, true, false] },
-            { type: "mcq", stimulus: "Dinding 42 m². Pilihan Cat: Momilex(7m²/kg), Josun(8m²/kg), Bulax(10m²/kg), Noppin(9m²/kg). <img src='TKA_SMP_1.21.png' class='stimulus-img'>", question: "Supaya sisa cat paling sedikit (efisien), merek manakah yang sebaiknya dipilih?", options: ["Momilex", "Josun", "Bulax", "Noppin"], answer: 0 },
+            { type: "mcq", stimulus: "Dinding 42 m². Pilihan Cat: Momilex(7m²/kg), Josun(8m²/kg), Bulax(10m²/kg), Noppin(9m²/kg). <img src='TKA_SMP_1.21.png' class='stimulus-img'>", question: "Supaya sisa cat paling sedikit (efisien), merek manakah yang sebaiknya dipilih?", options: ["Momilex", "Josun", "Bulax", "Noppin"], answer: 2 },
             { type: "mcq", stimulus: "Prisma Segitiga: alas 8, 6, 10 cm, tinggi 12 cm. Karton 50x100 cm. <img src='TKA_SMP_1.22.png' class='stimulus-img'>", question: "Berapa jumlah kemasan maksimum yang dapat dibuat dari satu lembar karton utuh?", options: ["4 kemasan", "8 kemasan", "9 kemasan", "14 kemasan"], answer: 1 },
             { type: "mcq", stimulus: "Robot di koordinat (6, 5) bergerak mengikuti translasi T(4, -2). <img src='TKA_SMP_1.23.png' class='stimulus-img'>", question: "Di manakah posisi robot tersebut setelah menyelesaikan pergerakannya?", options: ["Titik A (10, 7)", "Titik B (2, 3)", "Titik C (10, 3)", "Titik D (2, 7)"], answer: 2 },
             { type: "mcq", stimulus: "A(2,1), B(6,1), C(6,4) pindah menjadi A'(-1,2), B'(-1,6), C'(-4,6). <img src='TKA_SMP_1.24.png' class='stimulus-img'>", question: "Jenis transformasi tunggal manakah yang paling tepat?", options: ["Translasi sejauh (-3, 1)", "Refleksi terhadap garis y = x", "Rotasi 90° CCW dengan pusat (0,0)", "Refleksi terhadap sumbu-Y"], answer: 2 },
             { type: "mcq", stimulus: "Monumen: Balok (6x6x5m) + Limas (alas 6x6, t=3m). Bata (60x20x10 cm). <img src='TKA_SMP_1.25.png' class='stimulus-img'>", question: "Berapa jumlah minimal bata ringan yang diperlukan untuk menyusun monumen secara rapat?", options: ["16.800 buah", "18.000 buah", "19.200 buah", "21.600 buah"], answer: 1 },
             { type: "mcq", stimulus: "Peminjaman buku: Sen(48), Sel(56), Rab(72), Kam(64), Jum(40). <img src='TKA_SMP_1.26.png' class='stimulus-img'>", question: "Manakah pernyataan yang paling tepat menggambarkan data di atas?", options: ["Jumlah buku yang dipinjam selalu meningkat setiap hari.", "Peminjaman pada hari Kamis lebih sedikit dibandingkan hari Selasa.", "Selisih peminjaman antara hari tersibuk dan tersepi adalah 10 buku.", "Hari dengan minat pinjam buku paling tinggi terjadi pada hari Rabu."], answer: 3 },
-            { type: "checkbox", stimulus: "Pengunjung Mei 160 orang. Buku Tulis 30%, Pulpen 40%, Pensil 20%, Penghapus 10%. <img src='TKA_SMP_1.27.png' class='stimulus-img'>", question: "Pilih semua pernyataan yang benar berdasarkan data!", options: ["Terjadi peningkatan pengunjung signifikan bulan ini.", "Jika tiap pengunjung beli 1 alat tulis, ada 64 pulpen terjual.", "Jumlah pengunjung koperasi selalu meningkat konsisten.", "Total buku tulis yang terjual pada bulan Mei sebanyak 48 buah."], answer: [1, 3] },
-            { type: "mcq", stimulus: "Telur: K(45g), S(55g), B(65g). Target rata-rata 10 telur = 55g. Sudah ada 1B, 5S, 2K.", question: "Dua butir telur tambahan manakah yang harus dimasukkan agar memenuhi syarat?", options: ["2 butir telur sedang", "2 butir telur besar", "1 butir telur besar dan 1 butir kecil", "1 butir telur besar dan 1 sedang"], answer: 2 },
+            { type: "checkbox", stimulus: "Pengunjung Mei 160 orang. Buku Tulis 30%, Pulpen 40%, Pensil 20%, Penghapus 10%. <img src='TKA_SMP_1.27.png' class='stimulus-img'>", question: "Pilih semua pernyataan yang benar berdasarkan data!", options: ["Terjadi peningkatan pengunjung signifikan bulan ini.", "Jika tiap pengunjung beli 1 alat tulis, ada 64 pulpen terjual.", "Jumlah pengunjung koperasi selalu meningkat konsisten.", "Total buku tulis yang terjual pada bulan Mei sebanyak 48 buah."], answer: [0, 1] },
+            { type: "mcq", stimulus: "Telur: K(45g), S(55g), B(65g). Target rata-rata 10 telur = 55g. Sudah ada 1B, 5S, 2K.", question: "Dua butir telur tambahan manakah yang harus dimasukkan agar memenuhi syarat?", options: ["2 butir telur sedang", "2 butir telur besar", "1 butir telur besar dan 1 butir kecil", "1 butir telur besar dan 1 sedang"], answer: 3 },
             { type: "mcq", stimulus: "1.000 lampu: 980 baik, sisanya rusak. Satu diambil secara acak.", question: "Berapakah peluang mendapatkan lampu yang rusak?", options: ["1/50", "1/49", "2/49", "49/50"], answer: 0 },
             { type: "checkbox", stimulus: "Tes sensor: I(100 uji, 9 gagal), II(150, 18), III(250, 35).", question: "Pilih semua pernyataan yang benar mengenai kualitas sensor!", options: ["Peluang kegagalan total dari seluruh pengujian adalah 0,124.", "Tingkat kegagalan pada Tahap III lebih tinggi dibanding Tahap I.", "Jika diuji 1.000 kali lagi, diperkirakan 124 sensor gagal.", "Peluang sensor berhasil pada pengujian berikutnya adalah 0,91."], answer: [0, 1, 2] }
         ];
@@ -169,20 +227,36 @@
         let currentIdx = 0;
         let userAnswers = new Array(questions.length).fill(null);
         let timeLeft = 75 * 60; // 75 Menit
+        let timerInterval;
 
-        const timerInterval = setInterval(() => {
-            timeLeft--;
-            let mins = Math.floor(timeLeft / 60);
-            let secs = timeLeft % 60;
-            const timerEl = document.getElementById('timer');
-            if (timerEl) {
-                timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                finishQuiz();
-            }
-        }, 1000);
+        function startTest() {
+            // Sembunyikan Intro, Tampilkan Test
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('main-test-area').classList.remove('hidden');
+            
+            // Inisialisasi Navigasi dan Soal Pertama
+            initNav();
+            loadQuestion();
+            
+            // Jalankan Timer
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let mins = Math.floor(timeLeft / 60);
+                let secs = timeLeft % 60;
+                const timerEl = document.getElementById('timer');
+                if (timerEl) {
+                    timerEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishQuiz();
+                }
+            }, 1000);
+        }
 
         function initNav() {
             const grid = document.getElementById('nav-grid');
@@ -344,9 +418,6 @@
                 breakdown.appendChild(box);
             });
         }
-
-        initNav();
-        loadQuestion();
     </script>
 </body>
 </html>
