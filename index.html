@@ -21,7 +21,7 @@
         .res-box { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.8rem; font-weight: bold; color: white; }
         .res-correct { background-color: #10b981; }
         .res-wrong { background-color: #ef4444; }
-        img.stimulus-img { max-width: 100%; height: auto; margin: 15px auto; display: block; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        img.stimulus-img { max-width: 100%; height: auto; margin: 15px auto; display: block; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
         .mjx-chtml { font-size: 110% !important; }
     </style>
 </head>
@@ -47,13 +47,12 @@
                 </div>
 
                 <div class="mb-8 space-y-4">
-                    <h3 class="font-bold text-slate-900 border-b pb-2 flex items-center gap-2">
+                    <h3 class="font-bold text-slate-900 border-b pb-2 flex items-center gap-2 text-sm uppercase tracking-wider">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
                         Instruksi Pengerjaan:
                     </h3>
                     <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
                         <li>Isi Nama Lengkap dan Asal Sekolah dengan benar.</li>
-                        <li>Pastikan koneksi internet stabil selama mengerjakan soal.</li>
                         <li>Gunakan navigasi di sisi kanan untuk berpindah antar nomor.</li>
                         <li>Sistem penilaian menggunakan aturan jawaban benar/salah yang sudah diperbarui.</li>
                         <li>Jawaban akan terkirim otomatis jika waktu habis.</li>
@@ -63,11 +62,11 @@
 
                 <div class="space-y-4 mb-8">
                     <div>
-                        <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Nama Lengkap Murid</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nama Lengkap Murid</label>
                         <input type="text" id="input-name" placeholder="Nama murid..." class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-blue-600 outline-none font-bold">
                     </div>
                     <div>
-                        <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Asal Sekolah</label>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Asal Sekolah</label>
                         <input type="text" id="input-school" placeholder="Contoh: SMPN 1 Jakarta" class="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-blue-600 outline-none font-bold">
                     </div>
                 </div>
@@ -84,16 +83,16 @@
         <div class="flex-1">
             <div class="flex justify-between items-center mb-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                 <div>
-                    <h1 class="text-xl font-bold text-slate-900">Paket 1: Matematika SMP</h1>
-                    <p id="user-display" class="text-xs text-blue-600 font-bold"></p>
+                    <h1 class="text-xl font-bold text-slate-900 leading-tight">Paket 1: Matematika SMP</h1>
+                    <p id="user-display" class="text-xs text-blue-600 font-bold mt-1 uppercase tracking-wider"></p>
                 </div>
-                <div class="bg-red-50 px-4 py-2 rounded-xl text-red-600 font-black text-2xl font-mono" id="timer">75:00</div>
+                <div class="bg-red-50 px-4 py-2 rounded-xl text-red-600 font-black text-2xl font-mono flex items-center gap-2 border border-red-100" id="timer">75:00</div>
             </div>
 
             <div id="quiz-card" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                 <div class="bg-slate-50 p-6 border-b" id="stimulus-content-box">
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Stimulus Soal</span>
+                        <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Stimulus Soal</span>
                     </div>
                     <div id="stimulus-text" class="text-slate-700 leading-relaxed italic text-sm md:text-base"></div>
                 </div>
@@ -104,22 +103,22 @@
                     </div>
                     <div id="options-container" class="space-y-3"></div>
                 </div>
-                <div class="p-6 bg-slate-50 flex justify-between border-t">
-                    <button id="prev-btn" onclick="changeQuestion(-1)" class="font-bold text-slate-400 hover:text-blue-600 uppercase text-sm">Sebelumnya</button>
-                    <button id="next-btn" onclick="changeQuestion(1)" class="bg-blue-600 text-white px-8 py-2 rounded-xl font-bold hover:bg-blue-700 uppercase text-sm">Selanjutnya</button>
+                <div class="p-6 bg-slate-50 flex justify-between border-t border-slate-100">
+                    <button id="prev-btn" onclick="changeQuestion(-1)" class="font-bold text-slate-400 hover:text-blue-600 uppercase text-xs tracking-widest">Sebelumnya</button>
+                    <button id="next-btn" onclick="changeQuestion(1)" class="bg-blue-600 text-white px-8 py-2.5 rounded-xl font-bold hover:bg-blue-700 uppercase text-xs tracking-widest shadow-lg shadow-blue-100">Selanjutnya</button>
                 </div>
             </div>
         </div>
 
         <div class="lg:w-80">
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 sticky top-6 text-center">
-                <h3 class="font-bold text-slate-900 mb-4 text-xs uppercase tracking-widest">Navigasi Soal</h3>
+                <h3 class="font-bold text-slate-900 mb-4 text-[10px] uppercase tracking-[0.2em] opacity-50">Navigasi Soal</h3>
                 <div id="nav-grid" class="grid grid-cols-5 gap-2 mb-6"></div>
-                <div class="space-y-2 mb-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left border-t pt-4">
+                <div class="space-y-2 mb-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left border-t pt-4 border-slate-100">
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded bg-blue-600"></div><span>Terisi</span></div>
                     <div class="flex items-center gap-2"><div class="w-3 h-3 rounded bg-slate-100 border"></div><span>Kosong</span></div>
                 </div>
-                <button onclick="confirmFinish()" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-black shadow-lg hover:bg-emerald-700 transition-all">KIRIM JAWABAN</button>
+                <button onclick="confirmFinish()" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-black shadow-lg hover:bg-emerald-700 transition-all uppercase text-sm tracking-widest">KIRIM JAWABAN</button>
             </div>
         </div>
     </div>
@@ -131,11 +130,11 @@
             <div class="my-6 py-8 border-y border-slate-100">
                 <p class="text-slate-400 text-xs font-bold uppercase mb-1 tracking-widest">Skor Akhir Kamu</p>
                 <div id="final-score" class="text-8xl font-black text-blue-600 leading-none">0</div>
-                <p class="mt-4 font-bold text-slate-600 text-sm">Jawaban Benar: <span id="correct-count">0</span> / 30</p>
+                <p class="mt-4 font-bold text-slate-600 text-sm tracking-wider uppercase">Benar <span id="correct-count">0</span> dari 30 Soal</p>
             </div>
 
             <div class="mb-10 text-left">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Ringkasan Hasil Per Nomor</h3>
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Ringkasan Hasil Per Nomor</h3>
                 <div id="eval-grid" class="flex flex-wrap gap-2 justify-center lg:justify-start"></div>
             </div>
             
@@ -152,8 +151,8 @@
             <h3 class="text-2xl font-black text-slate-900 mb-4 uppercase">Kirim Jawaban?</h3>
             <p class="text-slate-500 text-sm mb-8 leading-relaxed font-medium">Pastikan semua soal sudah terjawab dengan teliti sebelum melihat hasil akhir.</p>
             <div class="flex gap-3 font-bold">
-                <button onclick="closeModal()" class="flex-1 py-4 text-slate-400 bg-slate-50 rounded-2xl uppercase text-xs">Batal</button>
-                <button onclick="finishQuiz()" class="flex-1 py-4 font-black text-white bg-blue-600 rounded-2xl shadow-lg uppercase text-xs">Ya, Selesai</button>
+                <button onclick="closeModal()" class="flex-1 py-4 text-slate-400 bg-slate-100 rounded-2xl uppercase text-[10px] tracking-widest">Batal</button>
+                <button onclick="finishQuiz()" class="flex-1 py-4 font-black text-white bg-blue-600 rounded-2xl shadow-lg uppercase text-[10px] tracking-widest">Ya, Selesai</button>
             </div>
         </div>
     </div>
@@ -197,42 +196,42 @@
             },
             { 
                 type: "mcq", 
-                stimulus: "Proyek renovasi sebuah gedung sekolah direncanakan dapat diselesaikan oleh 12 pegawai dalam waktu 60 hari. Diasumsikan setiap pegawai memiliki kemampuan kerja yang sama.", 
+                stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Proyek renovasi sebuah gedung sekolah direncanakan dapat diselesaikan oleh 12 pegawai dalam waktu 60 hari. Diasumsikan setiap pegawai memiliki kemampuan kerja yang sama.", 
                 question: "Jika manajer memutuskan untuk menambah jumlah pegawai sehingga total menjadi 18 orang agar pekerjaan lebih cepat selesai, maka waktu yang diperlukan untuk menyelesaikan renovasi tersebut adalah ....", 
                 options: ["30 hari", "40 hari", "45 hari", "90 hari"], 
                 answer: 1 
             },
             { 
                 type: "tf", 
-                stimulus: "Rencana awal renovasi gedung dilakukan oleh 15 pegawai dengan target selesai 60 hari. Namun, pada 10 hari pertama, hanya 10 pegawai yang bekerja karena kendala teknis. Setelah hari ke-10, seluruh pegawai (15 orang) baru bisa bekerja secara penuh.", 
+                stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Rencana awal renovasi gedung dilakukan oleh 15 pegawai dengan target selesai 60 hari. Namun, pada 10 hari pertama, hanya 10 pegawai yang bekerja karena kendala teknis. Setelah hari ke-10, seluruh pegawai (15 orang) baru bisa bekerja secara penuh.", 
                 question: "Tentukan Benar atau Salah untuk setiap pernyataan berikut!", 
                 options: ["Sisa pekerjaan setelah hari ke-10 setara dengan pekerjaan 800 hari kerja oleh 1 orang.", "Selama 10 hari pertama, proyek mengalami ketertinggalan jadwal yang setara dengan hasil kerja 5 orang selama 10 hari.", "Agar renovasi tetap selesai tepat waktu, manajer cukup mempekerjakan kembali 15 pegawai semula tanpa perlu tenaga tambahan."], 
                 answer: [true, true, false] 
             },
             { 
                 type: "checkbox", 
-                stimulus: "Rencana awal renovasi gedung diproyeksikan selesai dalam 60 hari dengan 20 pegawai. Setelah pekerjaan berjalan selama 24 hari, pekerjaan harus berhenti total selama 12 hari karena kendala cuaca ekstrem.", 
+                stimulus: "<img src='TKA_SMP_6-8.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Rencana awal renovasi gedung diproyeksikan selesai dalam 60 hari dengan 20 pegawai. Setelah pekerjaan berjalan selama 24 hari, pekerjaan harus berhenti total selama 12 hari karena kendala cuaca ekstrem.", 
                 question: "Manakah pernyataan yang sesuai dengan situasi tersebut agar proyek selesai tepat waktu? (Jawaban benar lebih dari satu)", 
                 options: ["Sisa waktu efektif yang tersedia untuk menyelesaikan sisa pekerjaan adalah 24 hari.", "Beban sisa pekerjaan setara dengan hasil kerja 20 orang selama 60 hari.", "Manajer proyek harus menyiapkan total 30 pegawai agar proyek selesai sesuai jadwal awal.", "Manajer proyek cukup menambah 5 orang pegawai dari jumlah semula agar renovasi gedung selesai tepat waktu."], 
                 answer: [0, 2] 
             },
             { 
                 type: "mcq", 
-                stimulus: "<b>Alur Pelayanan Donor Darah:</b><br>1. Pendaftaran & pengisian formulir: 5 menit.<br>2. Pemeriksaan kesehatan (tensi, Hb, goldar): 10 menit.<br>3. Menunggu di kursi tunggu (kapasitas 10 kursi).<br>4. Proses pengambilan darah: 30 menit.<br>5. Tahap pemulihan & istirahat: 30 menit.<br>Seorang pendonor datang saat tidak ada antrean sama sekali.", 
+                stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img' onerror=\"this.style.display='none'\"> <b>Alur Pelayanan Donor Darah:</b><br>1. Pendaftaran & pengisian formulir: 5 menit.<br>2. Pemeriksaan kesehatan (tensi, Hb, goldar): 10 menit.<br>3. Menunggu di kursi tunggu (kapasitas 10 kursi).<br>4. Proses pengambilan darah: 30 menit.<br>5. Tahap pemulihan & istirahat: 30 menit.<br>Seorang pendonor datang saat tidak ada antrean sama sekali.", 
                 question: "Tanpa adanya kendala, apa yang kemungkinan besar sedang dilakukan pendonor tersebut tepat setelah 25 menit berlalu sejak kedatangannya?", 
                 options: ["Tahap pemeriksaan kesehatan", "Duduk di kursi tunggu", "Proses pengambilan darah", "Istirahat di ruang pemulihan"], 
                 answer: 2 
             },
             { 
                 type: "checkbox", 
-                stimulus: "Yuda baru saja sampai di posko PMI. Rama sedang menunggu antrean untuk proses pengambilan darah. Sementara itu, Fajar sedang menjalani proses pengambilan darah sejak 16 menit yang lalu.", 
+                stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Yuda baru saja sampai di posko PMI. Rama sedang menunggu antrean untuk proses pengambilan darah. Sementara itu, Fajar sedang menjalani proses pengambilan darah sejak 16 menit yang lalu.", 
                 question: "Pilih pernyataan-pernyataan yang mungkin terjadi di posko PMI tersebut! (Jawaban benar lebih dari satu)", 
                 options: ["Yuda sempat bertemu Rama di kursi tunggu.", "Ketika Yuda masuk tahap pengambilan darah, Fajar sudah selesai dan telah pulang.", "Yuda harus menunggu di kursi tunggu minimal selama 30 menit.", "Sejak pertama kali datang hingga diperbolehkan pulang, Yuda menghabiskan waktu total lebih dari 1,5 jam."], 
                 answer: [0, 3] 
             },
             { 
                 type: "tf", 
-                stimulus: "Posko PMI menambah fasilitas sehingga bisa melayani 2 orang sekaligus pada tahap pengambilan darah dan pemulihan. Pada pukul 11.30 kondisi terpantau: 2 orang di ruang pemulihan (satu baru mulai, satu sudah 15 menit), 1 orang sedang mendaftar, 1 orang periksa kesehatan, 1 orang di kursi tunggu, dan 2 orang sedang diambil darahnya.", 
+                stimulus: "<img src='TKA_SMP_9-11.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Posko PMI menambah fasilitas sehingga bisa melayani 2 orang sekaligus pada tahap pengambilan darah dan pemulihan. Pada pukul 11.30 kondisi terpantau: 2 orang di ruang pemulihan (satu baru mulai, satu sudah 15 menit), 1 orang sedang mendaftar, 1 orang periksa kesehatan, 1 orang di kursi tunggu, dan 2 orang sedang diambil darahnya.", 
                 question: "Tentukan Benar atau Salah untuk setiap pernyataan berikut tentang situasi di lokasi!", 
                 options: ["Posko PMI kemungkinan besar mulai didatangi calon pendonor sejak pukul 10.30.", "Ada kemungkinan terdapat 3 orang di ruang tunggu secara bersamaan.", "Pada pukul 11.00 belum ada satupun pendonor yang memasuki tahap pemulihan."], 
                 answer: [true, false, true] 
@@ -281,70 +280,70 @@
             },
             { 
                 type: "tf", 
-                stimulus: "Desain rangka sebuah jembatan menggunakan susunan garis L1 sejajar L2 dan L3 sejajar L4. Diketahui besar sudut A adalah \\( 50^{\\circ} \\).", 
+                stimulus: "<img src='TKA_SMP_1.18.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Desain rangka sebuah jembatan menggunakan susunan garis L1 sejajar L2 dan L3 sejajar L4. Diketahui besar sudut A adalah \\( 50^{\\circ} \\).", 
                 question: "Berdasarkan sifat garis sejajar, tentukan Benar atau Salah pernyataan berikut!", 
                 options: ["Besar sudut D adalah \\( 50^{\\circ} \\).", "Besar sudut C adalah \\( 50^{\\circ} \\).", "Sudut B dan E memiliki besar yang sama yaitu \\( 130^{\\circ} \\)."], 
                 answer: [true, false, true] 
             },
             { 
                 type: "tf", 
-                stimulus: "Diberikan sebuah segitiga siku-siku ABC dengan garis tinggi AD yang ditarik dari titik sudut siku-siku ke sisi miring. Diketahui panjang sisi \\( AB = 12 \\) cm dan panjang \\( BD = 9,6 \\) cm.", 
+                stimulus: "<img src='TKA_SMP_1.19.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Diberikan sebuah segitiga siku-siku ABC dengan garis tinggi AD yang ditarik dari titik sudut siku-siku ke sisi miring. Diketahui panjang sisi \\( AB = 12 \\) cm dan panjang \\( BD = 9,6 \\) cm.", 
                 question: "Tentukan Benar atau Salah untuk pernyataan-pernyataan di bawah ini!", 
                 options: ["Segitiga ABD dan segitiga CAD adalah dua segitiga yang saling sebangun.", "Panjang sisi miring BC adalah 15 cm.", "Panjang sisi tegak AC adalah 10 cm."], 
                 answer: [true, true, false] 
             },
             { 
                 type: "tf", 
-                stimulus: "Sebuah taman kota berbentuk persegi panjang dengan ukuran 20 m \\( \\times \\) 14 m. Di tengah taman terdapat kolam ikan berbentuk lingkaran sempurna dengan jari-jari 3,5 m. Sisa area taman akan ditanami rumput hias. (Gunakan \\( \\pi = 22/7 \\))", 
+                stimulus: "<img src='TKA_SMP_1.20.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Sebuah taman kota berbentuk persegi panjang dengan ukuran 20 m \\( \\times \\) 14 m. Di tengah taman terdapat kolam ikan berbentuk lingkaran sempurna dengan jari-jari 3,5 m. Sisa area taman akan ditanami rumput hias. (Gunakan \\( \\pi = 22/7 \\))", 
                 question: "Tentukan Benar atau Salah pernyataan berikut mengenai luas area tersebut!", 
                 options: ["Selisih antara luas seluruh taman dan luas kolam adalah lebih dari 240 \\( m^2 \\).", "Jika diameter kolam ditambah 1 m, maka luas kolam akan bertambah lebih dari 7 \\( m^2 \\).", "Luas daerah yang ditanami rumput hias kurang dari 240 \\( m^2 \\)."], 
                 answer: [true, true, false] 
             },
             { 
                 type: "mcq", 
-                stimulus: "Pak Doni akan mengecat dinding samping rumahnya yang memiliki luas gabungan sebesar 42 \\( m^2 \\). Di toko tersedia empat merek cat dengan daya sebar berbeda:<br>1. Momilex: 1 kg untuk 7 \\( m^2 \\).<br>2. Josun: 1 kg untuk 8 \\( m^2 \\).<br>3. Bulax: 1 kg untuk 10 \\( m^2 \\).<br>4. Noppin: 1 kg untuk 9 \\( m^2 \\).", 
+                stimulus: "<img src='TKA_SMP_1.21.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Pak Doni akan mengecat dinding samping rumahnya yang memiliki luas gabungan sebesar 42 \\( m^2 \\). Di toko tersedia empat merek cat dengan daya sebar berbeda:<br>1. Momilex: 1 kg untuk 7 \\( m^2 \\).<br>2. Josun: 1 kg untuk 8 \\( m^2 \\).<br>3. Bulax: 1 kg untuk 10 \\( m^2 \\).<br>4. Noppin: 1 kg untuk 9 \\( m^2 \\).", 
                 question: "Supaya sisa cat yang dibeli paling sedikit (paling efisien), merek cat manakah yang sebaiknya dipilih oleh Pak Doni?", 
                 options: ["Momilex", "Josun", "Bulax", "Noppin"], 
                 answer: 2 
             },
             { 
                 type: "mcq", 
-                stimulus: "Sebuah produk makanan dikemas dalam wadah berbentuk prisma segitiga dengan panjang sisi alas 8 cm, 6 cm, dan 10 cm, serta tinggi prisma 12 cm. Pengusaha menggunakan lembaran karton berukuran 50 cm \\( \\times \\) 100 cm untuk membuat jaring-jaring kemasan tersebut.", 
+                stimulus: "<img src='TKA_SMP_1.22.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Sebuah produk makanan dikemas dalam wadah berbentuk prisma segitiga dengan panjang sisi alas 8 cm, 6 cm, dan 10 cm, serta tinggi prisma 12 cm. Pengusaha menggunakan lembaran karton berukuran 50 cm \\( \\times \\) 100 cm untuk membuat jaring-jaring kemasan tersebut.", 
                 question: "Berapa jumlah kemasan maksimum yang dapat dibuat dari satu lembar karton utuh tersebut?", 
                 options: ["4 kemasan", "8 kemasan", "9 kemasan", "14 kemasan"], 
                 answer: 1 
             },
             { 
                 type: "mcq", 
-                stimulus: "Sebuah robot pembersih otomatis berada pada posisi koordinat (6, 5) pada sebuah bidang lantai. Robot tersebut diprogram untuk bergerak mengikuti translasi \\( T(4, -2) \\).", 
+                stimulus: "<img src='TKA_SMP_1.23.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Sebuah robot pembersih otomatis berada pada posisi koordinat (6, 5) pada sebuah bidang lantai. Robot tersebut diprogram untuk bergerak mengikuti translasi \\( T(4, -2) \\).", 
                 question: "Di manakah posisi robot tersebut setelah menyelesaikan pergerakannya?", 
                 options: ["Titik A (10, 7)", "Titik B (2, 3)", "Titik C (10, 3)", "Titik D (2, 7)"], 
                 answer: 2 
             },
             { 
                 type: "mcq", 
-                stimulus: "Sebuah segitiga ABC pada bidang koordinat dipindahkan posisinya menjadi segitiga A'B'C'. Diketahui titik-titik segitiga asal adalah \\( A(2,1), B(6,1), \\) dan \\( C(6,4) \\). Titik bayangannya adalah \\( A'(-1,2), B'(-1,6), \\) dan \\( C'(-4,6) \\).", 
+                stimulus: "<img src='TKA_SMP_1.24.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Sebuah segitiga ABC pada bidang koordinat dipindahkan posisinya menjadi segitiga A'B'C'. Diketahui titik-titik segitiga asal adalah \\( A(2,1), B(6,1), \\) dan \\( C(6,4) \\). Titik bayangannya adalah \\( A'(-1,2), B'(-1,6), \\) dan \\( C'(-4,6) \\).", 
                 question: "Jenis transformasi tunggal manakah yang paling tepat menjelaskan perpindahan tersebut?", 
                 options: ["Translasi sejauh \\( (-3, 1) \\)", "Refleksi terhadap garis \\( y = x \\)", "Rotasi \\( 90^{\\circ} \\) berlawanan arah jarum jam dengan pusat (0,0)", "Refleksi terhadap sumbu-Y"], 
                 answer: 2 
             },
             { 
                 type: "mcq", 
-                stimulus: "Sebuah monumen dibangun dengan dua bagian:<br>1. Bagian bawah: Balok berukuran 6 m \\( \\times \\) 6 m \\( \\times \\) 5 m.<br>2. Bagian atas: Limas persegi dengan alas 6 m \\( \\times \\) 6 m dan tinggi 3 m.<br>Kontraktor menggunakan bata ringan berukuran 60 cm \\( \\times \\) 20 cm \\( \\times \\) 10 cm.", 
+                stimulus: "<img src='TKA_SMP_1.25.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Sebuah monumen dibangun dengan dua bagian:<br>1. Bagian bawah: Balok berukuran 6 m \\( \\times \\) 6 m \\( \\times \\) 5 m.<br>2. Bagian atas: Limas persegi dengan alas 6 m \\( \\times \\) 6 m dan tinggi 3 m.<br>Kontraktor menggunakan bata ringan berukuran 60 cm \\( \\times \\) 20 cm \\( \\times \\) 10 cm.", 
                 question: "Berapa jumlah minimal bata ringan yang diperlukan untuk menyusun monumen tersebut secara rapat?", 
                 options: ["16.800 buah", "18.000 buah", "19.200 buah", "21.600 buah"], 
                 answer: 1 
             },
             { 
                 type: "mcq", 
-                stimulus: "Data peminjaman buku di perpustakaan sekolah selama 5 hari:<br>Senin: 48 buku<br>Selasa: 56 buku<br>Rabu: 72 buku<br>Kamis: 64 buku<br>Jumat: 40 buku", 
+                stimulus: "<img src='TKA_SMP_1.26.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Data peminjaman buku di perpustakaan sekolah selama 5 hari:<br>Senin: 48 buku<br>Selasa: 56 buku<br>Rabu: 72 buku<br>Kamis: 64 buku<br>Jumat: 40 buku", 
                 question: "Manakah pernyataan berikut yang paling tepat menggambarkan data di atas?", 
                 options: ["Jumlah buku yang dipinjam selalu meningkat dari hari ke hari.", "Peminjaman pada hari Kamis lebih sedikit dibandingkan hari Selasa.", "Selisih peminjaman antara hari tersibuk dan tersepi adalah 10 buku.", "Hari dengan minat pinjam buku paling tinggi terjadi pada hari Rabu."], 
                 answer: 3 
             },
             { 
                 type: "checkbox", 
-                stimulus: "Data koperasi sekolah menunjukkan jumlah pengunjung bulan Mei sebanyak 160 orang. Dari seluruh alat tulis yang terjual pada bulan tersebut, persentasenya adalah: Buku Tulis 30%, Pulpen 40%, Pensil 20%, dan Penghapus 10%.", 
+                stimulus: "<img src='TKA_SMP_1.27.png' class='stimulus-img' onerror=\"this.style.display='none'\"> Data koperasi sekolah menunjukkan jumlah pengunjung bulan Mei sebanyak 160 orang. Dari seluruh alat tulis yang terjual pada bulan tersebut, persentasenya adalah: Buku Tulis 30%, Pulpen 40%, Pensil 20%, dan Penghapus 10%.", 
                 question: "Pilih semua pernyataan yang benar berdasarkan data tersebut! (Jawaban benar lebih dari satu)", 
                 options: ["Terjadi peningkatan pengunjung yang signifikan pada bulan tersebut.", "Jika setiap pengunjung membeli 1 alat tulis, maka ada 64 pulpen yang terjual.", "Jumlah pengunjung koperasi selalu meningkat secara konsisten setiap bulan.", "Total buku tulis yang terjual pada bulan Mei sebanyak 50 buah."], 
                 answer: [0, 1] 
